@@ -46,10 +46,10 @@ func main() {
 		totalElfCalories = append(totalElfCalories, sum(v))
 	}
 	sort.Ints(totalElfCalories)
-	fmt.Print("\n")
-	fmt.Print((totalElfCalories[len(totalElfCalories)-1]))
-	fmt.Print("\n")
+
 	sort.Sort(sort.Reverse(sort.IntSlice(totalElfCalories)))
+	fmt.Print(totalElfCalories[0])
+	fmt.Print("\n")
 	topThreeElfSlice := totalElfCalories[:3]
 	fmt.Print(sum(topThreeElfSlice))
 
