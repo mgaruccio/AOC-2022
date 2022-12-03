@@ -6,6 +6,39 @@ import (
 	"strings"
 )
 
+func position(ss []string, s string) int {
+	for i, v := range ss {
+		if v == s {
+			return i
+		}
+	}
+	panic("unable to find position of string in slide")
+}
+
+func rotatess(ss []string, k int) []string {
+	if k < 0 || len(ss) == 0 {
+		return ss
+	}
+
+	r := len(ss) - k%len(ss)
+
+	ss = append(ss[r:], ss[:r]...)
+
+	return ss
+}
+
+func rotateis(is []int, k int) []int {
+	if k < 0 || len(is) == 0 {
+		return is
+	}
+
+	r := len(is) - k%len(is)
+
+	is = append(is[r:], is[:r]...)
+
+	return is
+}
+
 func getInputs(filePath string) []string {
 	dat, err := os.ReadFile(filePath)
 	if err != nil {
@@ -17,69 +50,35 @@ func getInputs(filePath string) []string {
 }
 
 func determineWinner(me string, elf string) int {
+	intArr := []int{3, 0, 6}
+	stringArr := []string{"A", "B", "C"}
+	rotation := 0
 	if me == "A" {
-		if elf == "A" {
-			return 3
-		}
-		if elf == "B" {
-			return 0
-		}
-		if elf == "C" {
-			return 6
-		}
+		rotation = 0
 	}
 	if me == "B" {
-		if elf == "A" {
-			return 6
-		}
-		if elf == "B" {
-			return 3
-		}
-		if elf == "C" {
-			return 0
-		}
+		rotation = 1
 	}
 	if me == "C" {
-		if elf == "A" {
-			return 0
-		}
-		if elf == "B" {
-			return 6
-		}
-		if elf == "C" {
-			return 3
-		}
+		rotation = 2
 	}
-	panic("no winner determined")
+	pos := position(stringArr, elf)
+	rotatedArr := rotateis(intArr, rotation)
+	return rotatedArr[pos]
 }
 
 func determineRequiredShape(elf string, outcome string) string {
+	arr := []string{"A", "B", "C"}
+	rotation := 0
 	if outcome == "X" {
-		if elf == "A" {
-			return "C"
-		}
-		if elf == "B" {
-			return "A"
-		}
-		if elf == "C" {
-			return "B"
-		}
-	}
-	if outcome == "Y" {
-		return elf
+		rotation = 1
 	}
 	if outcome == "Z" {
-		if elf == "A" {
-			return "B"
-		}
-		if elf == "B" {
-			return "C"
-		}
-		if elf == "C" {
-			return "A"
-		}
+		rotation = 2
 	}
-	panic("unable to determine correct play")
+	pos := position(arr, elf)
+	rotatedArr := rotatess(arr, rotation)
+	return rotatedArr[pos]
 }
 
 func getShapeScore(shape string) int {
