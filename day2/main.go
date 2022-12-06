@@ -15,16 +15,21 @@ func position(ss []string, s string) int {
 	panic("unable to find position of string in slide")
 }
 
-func rotatess(ss []string, k int) []string {
-	if k < 0 || len(ss) == 0 {
-		return ss
-	}
+// func rotatess(ss []string, k int) []string {
+// 	if k < 0 || len(ss) == 0 {
+// 		return ss
+// 	}
 
-	r := len(ss) - k%len(ss)
+// 	r := len(ss) - k%len(ss)
 
-	ss = append(ss[r:], ss[:r]...)
+// 	ss = append(ss[r:], ss[:r]...)
 
-	return ss
+// 	return ss
+// }
+
+func findRotatedItem(ss []string, k int) string {
+	i := len(ss) - k - 1
+	return ss[i]
 }
 
 func rotateis(is []int, k int) []int {
@@ -71,14 +76,14 @@ func determineRequiredShape(elf string, outcome string) string {
 	arr := []string{"A", "B", "C"}
 	rotation := 0
 	if outcome == "X" {
-		rotation = 1
-	}
-	if outcome == "Z" {
 		rotation = 2
 	}
+	if outcome == "Z" {
+		rotation = 1
+	}
 	pos := position(arr, elf)
-	rotatedArr := rotatess(arr, rotation)
-	return rotatedArr[pos]
+	return findRotatedItem(arr, rotation+pos)
+	// return rotatedArr[pos]
 }
 
 func getShapeScore(shape string) int {
@@ -96,10 +101,12 @@ func getShapeScore(shape string) int {
 func main() {
 	inputs := getInputs("./input")
 	scoreAccumulator := 0
+	determineRequiredShape("A", "Y")
 	for _, v := range inputs {
 		choices := strings.Split(v, " ")
 		outcome := choices[1]
 		elf := choices[0]
+		fmt.Println(elf + " " + outcome)
 		me := determineRequiredShape(elf, outcome)
 		roundScore := determineWinner(me, elf)
 		shapeScore := getShapeScore(me)
