@@ -16,7 +16,7 @@ def get_input(input_file="./input"):
 
 
 def main():
-    input = get_input("./testinput")
+    input = get_input("./input")
     total_cycle_count = 1
     x = 1
     operation = input.popleft()
@@ -24,12 +24,12 @@ def main():
     relevance_counter = 19
     row_counter = 0
     while len(input) > 0:
-        sprite_distance = abs(row_counter - x)
         if abs(row_counter - x) <= 1:
             print("#", end="")
         else:
             print(".", end="")
-        if row_counter == 39:
+        row_counter += 1
+        if row_counter == 40:
             print("\n")
             row_counter = 0
         if relevance_counter == 0:
@@ -39,12 +39,13 @@ def main():
         operation["cycles"] -= 1
         total_cycle_count += 1
         relevance_counter -= 1
-        row_counter += 1
+
         if operation["cycles"] == 0:
             if operation["command"] == "addx":
                 x += operation["value"]
             operation = input.popleft()
 
+    print("\n")
     print(sum(important_cycle_values))
 
 
